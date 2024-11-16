@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradient Text Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; margin-bottom: 40px;">Notion Cover Image Creator</h1>
+    
+        <div class="page-layout">
+       
+    <!-- MAIN CONTROLS CONTAINER -->
+    <div class="controls">
+    
+
+<!-- COLOR CONTROLS -->
+
+<div class="control-group">
+    <label for="startColor">Start Color:</label>
+    <input type="color" id="startColor" value="#004D4D">
+    <span id="startColorHex" class="color-hex"></span>
+</div>
+
+<div class="control-group">
+    <label for="endColor">End Color:</label>
+    <input type="color" id="endColor" value="#00CCCC">
+    <span id="endColorHex" class="color-hex"></span>
+</div>
+
+        <!-- ANGLE CONTROL -->
+        <div class="control-group">
+            <label for="angleSlider">Angle:</label>
+            <input type="range" id="angleSlider" min="0" max="360" value="0">
+            <span id="angleValue" class="value-display">0°</span>
+        </div>
+
+        <!-- TEXT INPUT -->
+        <div class="control-group">
+            <label for="textInput">Text:</label>
+            <textarea id="textInput" rows="3" style="width: 200px; resize: vertical;"></textarea>
+        </div>
+    
+
+        <!-- FONT CONTROLS -->
+        <div class="control-group">
+            <label for="fontFamily">Font:</label>
+            <select id="fontFamily">
+                <option value="Montserrat">Montserrat</option>
+                <option value="Inter">Inter</option>
+                <option value="Playfair Display">Playfair Display</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label for="fontWeight">Font Weight:</label>
+            <select id="fontWeight">
+                <option value="300">Light (300)</option>
+                <option value="400">Regular (400)</option>
+                <option value="500">Medium (500)</option>
+                <option value="600">Semi-Bold (600)</option>
+                <option value="700">Bold (700)</option>
+                <option value="800">Extra-Bold (800)</option>
+                <option value="900">Black (900)</option>
+            </select>
+        </div>
+
+        <!-- FONT SIZE CONTROL -->
+        <div class="control-group">
+            <label for="fontSizeSlider">Font Size:</label>
+            <input type="range" id="fontSizeSlider" min="12" max="200" value="48">
+            <span id="fontSizeValue" class="value-display">48px</span>
+        </div>
+
+        <!-- ALIGNMENT CONTROLS -->
+        <div class="control-group">
+            <label>Text Alignment:</label>
+            <div class="alignment-controls">
+                <button class="alignment-button" data-align="left">Left</button>
+                <button class="alignment-button active" data-align="center">Center</button>
+                <button class="alignment-button" data-align="right">Right</button>
+            </div>
+        </div>
+
+        <!-- TEXT COLOR CONTROLS -->
+        <div class="control-group">
+            <label>Text Color:</label>
+            <div class="radio-group">
+                <label class="radio-label">
+                    <input type="radio" name="textColor" value="black" checked>
+                    Black
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="textColor" value="white">
+                    White
+                </label>
+            </div>
+        </div>
+
+        <!-- DOWNLOAD BUTTON -->
+        <button class="download-button">
+            <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Download SVG
+        </button>
+    </div>
+
+    <!-- SVG CONTAINER -->
+
+    <div class="preview-container">
+        <div class="svg-container">
+            <div class="preview-controls">
+                <button id="safeAreaToggle" class="toggle-button">Toggle Safe Area</button>
+            </div>
+            <svg id="gradientSvg" viewBox="0 0 1500 600"></svg>
+        </div>
+    </div>
+    
+    </div> 
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
