@@ -189,17 +189,6 @@ input[type="text"], select {
     background: white;
 }
 
-.footer {
-    width: 100%;
-    max-width: 600px;
-    text-align: center;
-    color: #666;
-    font-size: 14px;
-    margin-top: 40px;
-    padding: 20px 0;
-    border-top: 1px solid #ddd;
-}
-
 /* Media Queries for Responsive Layout */
 @media (max-width: 1200px) {
     body {
@@ -284,9 +273,4 @@ input[type="text"], select {
         margin-bottom: 150px;
     }
     
-    .footer {
-        margin-top: 20px;
-        padding: 15px 0;
-        font-size: 12px;
-    }
 }
