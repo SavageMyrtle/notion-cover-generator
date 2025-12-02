@@ -189,6 +189,7 @@ alignmentButtons.forEach(button => {
 
 // Handle download
 const downloadButton = document.querySelector('.download-button');
+
 // Replace the current download button event listener with this updated version
 downloadButton.addEventListener('click', () => {
     const safeArea = document.getElementById('safeArea');
@@ -243,6 +244,10 @@ downloadButton.addEventListener('click', () => {
     const link = document.createElement('a');
     link.href = url;
     link.download = filename;
+    
+    // NEW: Try to download, but if in iframe, open in new tab instead
+    link.target = '_blank'; // This makes it work in iframes
+    
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -251,8 +256,9 @@ downloadButton.addEventListener('click', () => {
         safeArea.style.display = 'block';
     }
     
-    URL.revokeObjectURL(url);
+    setTimeout(() => URL.revokeObjectURL(url), 100);
 });
+
 
 // Add event listeners
 document.addEventListener('DOMContentLoaded', () => {
