@@ -12,8 +12,8 @@ const fontWeightSelect = document.getElementById('fontWeight');
 const textColorInputs = document.querySelectorAll('input[name="textColor"]');
 const alignmentButtons = document.querySelectorAll('.alignment-button');
 const safeAreaToggle = document.querySelector('.safe-area-toggle');
-const DEFAULT_START_COLOR = '#ffffff';  // or whatever color you prefer
-const DEFAULT_END_COLOR = '#000000';    // or whatever color you prefer
+const DEFAULT_START_COLOR = '#ffffff';
+const DEFAULT_END_COLOR = '#000000';
 
 if (startColorInput) {
     startColorInput.value = DEFAULT_START_COLOR;
@@ -54,21 +54,20 @@ function initializeSVG() {
     safeArea.setAttribute("width", "1100");
     safeArea.setAttribute("height", "300");
     safeArea.setAttribute("fill", "none");
-    safeArea.setAttribute("stroke", "#ff00ff80"); // Magenta with 50% opacity
+    safeArea.setAttribute("stroke", "#ff00ff80");
     safeArea.setAttribute("stroke-dasharray", "5,5");
     safeArea.id = "safeArea";
     svg.appendChild(safeArea);
 
     // Create text element
-
     const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
     text.setAttribute("x", "750");
     text.setAttribute("y", "50%");
     text.setAttribute("text-anchor", "middle");
     text.setAttribute("dominant-baseline", "middle");
     text.setAttribute("font-family", fontFamilySelect.value);
-    text.setAttribute("font-weight", "500");  // Set default to medium (500)
-    text.setAttribute("font-size", "100px");  // Set default to 100px
+    text.setAttribute("font-weight", "500");
+    text.setAttribute("font-size", "100px");
     svg.appendChild(text);
 
     return { gradient, stop1, stop2, text };
@@ -78,7 +77,7 @@ const svgElements = initializeSVG();
 
 // Set default font weight
 if (fontWeightSelect) {
-    fontWeightSelect.value = "500";  // Set dropdown to medium
+    fontWeightSelect.value = "500";
 }
 
 // Set default font size
@@ -112,7 +111,7 @@ function updateGradient() {
     document.getElementById('endColorHex').textContent = endColor.toUpperCase();
 }
 
-// Replace the current updateText function with this version
+// Update text
 function updateText() {
     while (svgElements.text.firstChild) {
         svgElements.text.removeChild(svgElements.text.firstChild);
@@ -122,7 +121,6 @@ function updateText() {
     const lineHeight = 1.2;
     const fontSize = parseInt(fontSizeSlider.value);
     
-    // Center vertically in safe area (300px height)
     const totalHeight = (lines.length - 1) * lineHeight * fontSize;
     const startY = 300 - (totalHeight / 2);
     
@@ -157,29 +155,25 @@ function updateFontFamily() {
 }
 
 // Handle text alignment
-// Replace the current alignment buttons event listener code with this simpler version
 alignmentButtons.forEach(button => {
     button.addEventListener('click', () => {
         alignmentButtons.forEach(b => b.classList.remove('active'));
         button.classList.add('active');
         const align = button.dataset.align;
         
-        // Safe area boundaries
-        const safeAreaLeft = 200;  // Original safe area x position
-        const safeAreaRight = 1300;  // x + width (200 + 1100)
-        const safeAreaCenter = 750;  // Center point (200 + 1100/2)
+        const safeAreaLeft = 200;
+        const safeAreaRight = 1300;
+        const safeAreaCenter = 750;
         
-        // Set text anchor and x position based on alignment
         const textAnchor = align === 'left' ? 'start' : 
                           align === 'right' ? 'end' : 'middle';
-        const x = align === 'left' ? `${safeAreaLeft + 50}` :  // Add 50px padding from safe area edge
-                 align === 'right' ? `${safeAreaRight - 50}` : // Subtract 50px padding from safe area edge
-                 `${safeAreaCenter}`;  // Center alignment uses middle of safe area
+        const x = align === 'left' ? `${safeAreaLeft + 50}` :
+                 align === 'right' ? `${safeAreaRight - 50}` :
+                 `${safeAreaCenter}`;
         
         svgElements.text.setAttribute('text-anchor', textAnchor);
         svgElements.text.setAttribute('x', x);
         
-        // Update all tspans
         const tspans = svgElements.text.getElementsByTagName('tspan');
         Array.from(tspans).forEach(tspan => {
             tspan.setAttribute('x', x);
@@ -189,8 +183,6 @@ alignmentButtons.forEach(button => {
 
 // Handle download
 const downloadButton = document.querySelector('.download-button');
-
-// Replace the current download button event listener with this updated version
 downloadButton.addEventListener('click', () => {
     const safeArea = document.getElementById('safeArea');
     const wasVisible = safeArea.classList.contains('visible');
@@ -200,7 +192,6 @@ downloadButton.addEventListener('click', () => {
     svgClone.setAttribute('width', '1500');
     svgClone.setAttribute('height', '600');
     
-    // Add complete font definitions for all weights
     const styleElement = document.createElementNS("http://www.w3.org/2000/svg", "style");
     styleElement.textContent = `
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
@@ -217,7 +208,6 @@ downloadButton.addEventListener('click', () => {
     `;
     svgClone.insertBefore(styleElement, svgClone.firstChild);
     
-    // Ensure text alignment is preserved
     const textElement = svgClone.querySelector('text');
     const tspans = textElement.querySelectorAll('tspan');
     const currentX = textElement.getAttribute('x');
@@ -228,13 +218,11 @@ downloadButton.addEventListener('click', () => {
         tspan.setAttribute('text-anchor', currentAnchor);
     });
     
-    // Generate filename from text and colors
     const textContent = textInput.value.split('\n')[0].slice(0, 20).toLowerCase().replace(/\s+/g, '_');
     const color1 = startColorInput.value.slice(1);
     const color2 = endColorInput.value.slice(1);
     const filename = `${textContent}-${color1}-${color2}.svg`;
     
-    // Add XML declaration and SVG namespace
     const svgContent = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n' +
                       new XMLSerializer().serializeToString(svgClone);
     
@@ -244,9 +232,7 @@ downloadButton.addEventListener('click', () => {
     const link = document.createElement('a');
     link.href = url;
     link.download = filename;
-    
-    // NEW: Try to download, but if in iframe, open in new tab instead
-    link.target = '_blank'; // This makes it work in iframes
+    link.target = '_blank';
     
     document.body.appendChild(link);
     link.click();
@@ -258,7 +244,6 @@ downloadButton.addEventListener('click', () => {
     
     setTimeout(() => URL.revokeObjectURL(url), 100);
 });
-
 
 // Add event listeners
 document.addEventListener('DOMContentLoaded', () => {
@@ -274,7 +259,6 @@ document.addEventListener('DOMContentLoaded', () => {
         input.addEventListener('change', updateTextColor);
     });
 
-    // Safe Area Toggle Implementation
     const safeArea = document.getElementById('safeArea');
     const safeAreaToggle = document.getElementById('safeAreaToggle');
 
@@ -286,7 +270,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Initial render
     updateGradient();
     updateTextColor();
     updateFontSize();
